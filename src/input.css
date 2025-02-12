@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+    /* Josefin Sans'i yeni bir font ailesi olarak ekleyin */
+    --font-josefin-sans: "Josefin Sans", sans-serif;
+}
