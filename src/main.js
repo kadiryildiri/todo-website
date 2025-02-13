@@ -50,15 +50,15 @@ const renderUI = (displayTodos = todos) => {
             let todoItem = document.createElement("div")
             todoItem.className = "flex items-center border-b-gray-700 border-b-1"
             let todoCheck = document.createElement("div")
-            todoCheck.className = "bg-[#25273C] h-12 w-16 flex items-center justify-center rounded-l-md md:h-18"
+            todoCheck.className = "bg-[#25273C] h-12 w-16 flex items-center justify-center rounded-l-md md:h-14"
             let todoCheckSpan = document.createElement("span")
             todoCheckSpan.className =
                 "w-5 h-5 border-[#cacde8] hover:border-[#57ddff] transition-all  rounded-full border-1 flex items-center justify-center md:hover:cursor-pointer"
             let todoText = document.createElement("p")
             todoText.className =
-                "w-full p-3 text-[#f5f5f5e7] bg-[#25273C] font-josefin-sans md:h-18 flex items-center md:text-xl"
+                "w-full p-3 text-[#f5f5f5e7] bg-[#25273C] font-josefin-sans md:h-14 flex items-center md:text-xl"
             let todoCross = document.createElement("div")
-            todoCross.className = "bg-[#25273C] h-12 w-16 flex items-center justify-center rounded-r-md md:h-18 "
+            todoCross.className = "bg-[#25273C] h-12 w-16 flex items-center justify-center rounded-r-md md:h-14 "
             let crossBtn = document.createElement("button")
             crossBtn.className = "md:cursor-pointer"
             let crossImg = document.createElement("img")
@@ -137,15 +137,15 @@ const renderUI = (displayTodos = todos) => {
             let todoItem = document.createElement("div")
             todoItem.className = "flex items-center border-b-gray-700 border-b-1"
             let todoCheck = document.createElement("div")
-            todoCheck.className = "flex items-center justify-center w-16 h-12 bg-white rounded-l-md md:h-18"
+            todoCheck.className = "flex items-center justify-center w-16 h-12 bg-white rounded-l-md md:h-14"
             let todoCheckSpan = document.createElement("span")
             todoCheckSpan.className =
                 "w-5 h-5 border-[#cacde8] hover:border-[#57ddff] transition-all rounded-full border-1 flex items-center justify-center md:hover:cursor-pointer"
             let todoText = document.createElement("p")
             todoText.className =
-                "w-full p-3 text-[#25273C] bg-white font-josefin-sans md:h-18 flex items-center md:text-xl"
+                "w-full p-3 text-[#25273C] bg-white font-josefin-sans md:h-14 flex items-center md:text-xl"
             let todoCross = document.createElement("div")
-            todoCross.className = "flex items-center justify-center w-16 h-12 bg-white rounded-r-md md:h-18"
+            todoCross.className = "flex items-center justify-center w-16 h-12 bg-white rounded-r-md md:h-14"
             let crossBtn = document.createElement("button")
             crossBtn.className = "md:cursor-pointer"
             let crossImg = document.createElement("img")
@@ -275,7 +275,7 @@ theme.addEventListener("click", () => {
         input.classList.add("text-[#25273C]")
         info.classList.remove("bg-[#25273C]")
         info.classList.add("bg-[#ffffff]")
-        info.classList.remove("text-[#f5f5f5e7]")
+        info.classList.remove("text-[#f5f5f579]")
         info.classList.add("text-[#25273C]")
         settings.classList.remove("bg-[#25273C]")
         settings.classList.add("bg-[#ffffff]")
