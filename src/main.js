@@ -1,4 +1,5 @@
-"use strict"
+;("use strict")
+
 const body = document.querySelector("body")
 const todoList = document.getElementById("todoList")
 const input = document.getElementById("todoInput")
@@ -13,6 +14,7 @@ const checkBox = document.getElementById("checkBox")
 const info = document.getElementById("info")
 const settings = document.getElementById("settings")
 const themeIcon = document.getElementById("themeIcon")
+const dragInfo = document.getElementById("dragInfo")
 
 let todos = JSON.parse(sessionStorage.getItem("todos") || "[]")
 let currentTheme = "dark"
@@ -41,6 +43,22 @@ const addItem = (event) => {
     }
 }
 
+window.addItem = (event) => {
+    event.preventDefault()
+    if (input.value.trim() === "") {
+        alert("Please enter todo")
+    } else {
+        todos.push({
+            id: Date.now(),
+            text: input.value.trim(),
+            completed: false,
+        })
+        addToStorage()
+        renderUI()
+        input.value = ""
+    }
+}
+
 const renderUI = (displayTodos = todos) => {
     todoList.innerHTML = ""
 
@@ -48,7 +66,7 @@ const renderUI = (displayTodos = todos) => {
     if (currentTheme === "dark") {
         displayTodos.forEach((todo, index) => {
             let todoItem = document.createElement("div")
-            todoItem.className = "flex items-center border-b-gray-700 border-b-1"
+            todoItem.className = "flex items-center border-b-gray-700 border-b-1 todo-item"
             let todoCheck = document.createElement("div")
             todoCheck.className = "bg-[#25273C] h-12 w-16 flex items-center justify-center rounded-l-md md:h-14"
             let todoCheckSpan = document.createElement("span")
@@ -58,7 +76,8 @@ const renderUI = (displayTodos = todos) => {
             todoText.className =
                 "w-full p-3 text-[#f5f5f5e7] bg-[#25273C] font-josefin-sans md:h-14 flex items-center md:text-xl"
             let todoCross = document.createElement("div")
-            todoCross.className = "bg-[#25273C] h-12 w-16 flex items-center justify-center rounded-r-md md:h-14 "
+            todoCross.className =
+                "bg-[#25273C] h-12 w-16 flex items-center justify-center rounded-r-md md:h-14 select-none"
             let crossBtn = document.createElement("button")
             crossBtn.className = "md:cursor-pointer"
             let crossImg = document.createElement("img")
@@ -73,6 +92,8 @@ const renderUI = (displayTodos = todos) => {
             todoItem.appendChild(todoText)
             todoItem.appendChild(todoCross)
             todoList.appendChild(todoItem)
+
+            todoItem.classList.add("cursor-grab")
 
             if (todo.completed) {
                 const checkImg = document.createElement("img")
@@ -135,7 +156,7 @@ const renderUI = (displayTodos = todos) => {
     } else {
         displayTodos.forEach((todo, index) => {
             let todoItem = document.createElement("div")
-            todoItem.className = "flex items-center border-b-gray-700 border-b-1"
+            todoItem.className = "flex items-center border-b-gray-700 border-b-1 todo-item"
             let todoCheck = document.createElement("div")
             todoCheck.className = "flex items-center justify-center w-16 h-12 bg-white rounded-l-md md:h-14"
             let todoCheckSpan = document.createElement("span")
@@ -145,7 +166,7 @@ const renderUI = (displayTodos = todos) => {
             todoText.className =
                 "w-full p-3 text-[#25273C] bg-white font-josefin-sans md:h-14 flex items-center md:text-xl"
             let todoCross = document.createElement("div")
-            todoCross.className = "flex items-center justify-center w-16 h-12 bg-white rounded-r-md md:h-14"
+            todoCross.className = "flex items-center justify-center w-16 h-12 bg-white select-none rounded-r-md md:h-14"
             let crossBtn = document.createElement("button")
             crossBtn.className = "md:cursor-pointer"
             let crossImg = document.createElement("img")
@@ -160,6 +181,8 @@ const renderUI = (displayTodos = todos) => {
             todoItem.appendChild(todoText)
             todoItem.appendChild(todoCross)
             todoList.appendChild(todoItem)
+
+            todoItem.classList.add("cursor-grab")
 
             if (todo.completed) {
                 const checkImg = document.createElement("img")
@@ -285,6 +308,8 @@ theme.addEventListener("click", () => {
         active.classList.add("text-[#25273C]")
         completed.classList.remove("text-[#f5f5f579]")
         completed.classList.add("text-[#25273C]")
+        dragInfo.classList.remove("text-[#f5f5f54e]")
+        dragInfo.classList.add("text-[#1404043a]")
         currentTheme = "light"
         renderUI()
     } else {
@@ -301,8 +326,8 @@ theme.addEventListener("click", () => {
         input.classList.remove("text-[#25273C]")
         info.classList.add("bg-[#25273C]")
         info.classList.remove("bg-[#ffffff]")
-        info.classList.add("text-[#f5f5f5e7]")
         info.classList.remove("text-[#25273C]")
+        info.classList.add("text-[#f5f5f579]")
         settings.classList.add("bg-[#25273C]")
         settings.classList.remove("bg-[#ffffff]")
         settings.classList.add("text-[#f5f5f5e7]")
@@ -311,7 +336,20 @@ theme.addEventListener("click", () => {
         active.classList.add("text-[#f5f5f579]")
         completed.classList.remove("text-[#25273C]")
         completed.classList.add("text-[#f5f5f579]")
+        dragInfo.classList.remove("text-[#1404043a]")
+        dragInfo.classList.add("text-[#f5f5f54e]")
         currentTheme = "dark"
         renderUI()
     }
+})
+
+new Sortable(todoList, {
+    animation: 250,
+    onEnd: function (evt) {
+        const { oldIndex, newIndex } = evt
+        const [movedItem] = todos.splice(oldIndex, 1)
+        todos.splice(newIndex, 0, movedItem)
+        addToStorage()
+        renderUI()
+    },
 })
